@@ -1,0 +1,187 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  description: API for managing movies.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+
+paths:
+  /movies:
+    get:
+      summary: Get all movies
+      tags:
+        - Movies
+      description: Retrieve a list of all movies.
+      responses:
+        200:
+          description: A list of movies.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+        500:
+          description: Internal server error
+
+    post:
+      summary: Create a new movie
+      tags:
+        - Movies
+      description: Add a new movie to the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieInput'
+      responses:
+        200:
+          description: Movie created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        500:
+          description: Internal server error
+
+  /movies/{mid}:
+    get:
+      summary: Get a movie by ID
+      tags:
+        - Movies
+      description: Retrieve a specific movie by its ID.
+      parameters:
+        - name: mid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the movie.
+      responses:
+        200:
+          description: Movie details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        404:
+          description: Movie not found.
+        500:
+          description: Internal server error
+
+    put:
+      summary: Update a movie by ID
+      tags:
+        - Movies
+      description: Update the details of an existing movie.
+      parameters:
+        - name: mid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the movie.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieInput'
+      responses:
+        200:
+          description: Movie updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        404:
+          description: Movie not found.
+        500:
+          description: Internal server error
+
+    delete:
+      summary: Delete a movie by ID
+      tags:
+        - Movies
+      description: Remove a movie from the database.
+      parameters:
+        - name: mid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the movie.
+      responses:
+        200:
+          description: Movie deleted successfully.
+        404:
+          description: Movie not found.
+        500:
+          description: Internal server error
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the movie.
+        title:
+          type: string
+          description: Title of the movie.
+        release_year:
+          type: integer
+          description: Year the movie was released.
+        director:
+          type: string
+          description: Director of the movie.
+        duration_minutes:
+          type: integer
+          description: Duration of the movie in minutes.
+        synopsis:
+          type: string
+          description: Brief synopsis of the movie.
+        poster_url:
+          type: string
+          description: URL to the movie's poster.
+      required:
+        - id
+        - title
+        - release_year
+        - director
+        - duration_minutes
+        - synopsis
+        - poster_url
+
+    MovieInput:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the movie.
+        release_year:
+          type: integer
+          description: Year the movie was released.
+        director:
+          type: string
+          description: Director of the movie.
+        duration_minutes:
+          type: integer
+          description: Duration of the movie in minutes.
+        synopsis:
+          type: string
+          description: Brief synopsis of the movie.
+        poster_url:
+          type: string
+          description: URL to the movie's poster.
+      required:
+        - title
+        - release_year
+        - director
+        - duration_minutes
+        - synopsis
+        - poster_url

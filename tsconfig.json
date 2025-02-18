@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es2022",
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "strict": true,
+      "outDir": "./dist",
+      "moduleDetection": "force",
+      "module": "Preserve",
+      "resolveJsonModule": true,
+      "allowJs": true,
+      "esModuleInterop": true,
+      "isolatedModules": true
+    }
+  }

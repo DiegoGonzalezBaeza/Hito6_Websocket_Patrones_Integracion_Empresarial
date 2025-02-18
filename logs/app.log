@@ -1,0 +1,65 @@
+2025-01-13T07:41:46.561Z [ERROR]: /api/v1/users/1 GET invalid input syntax for type uuid: "1"
+2025-01-13T08:04:33.283Z [ERROR]: user@example.com
+2025-01-13T08:04:33.289Z [ERROR]: /api/v1/auth/login POST User not found
+2025-01-13T08:05:00.831Z [ERROR]: test2_update2r@example.com
+2025-01-13T08:05:00.834Z [ERROR]: /api/v1/auth/login POST User not found
+2025-01-13T08:05:14.430Z [ERROR]: test2_update2r@domain.com
+2025-01-13T08:05:14.432Z [ERROR]: /api/v1/auth/login POST User not found
+2025-01-13T08:05:21.381Z [ERROR]: /api/v1/auth/login POST Password incorrect
+2025-01-15T05:08:07.469Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:10:04.118Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:10:07.292Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:10:37.914Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:23:43.128Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:25:15.029Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:26:24.051Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:30:03.351Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:30:23.438Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:35:39.714Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:41:29.044Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:41:38.581Z [ERROR]: exampl2@example.com
+2025-01-15T05:41:38.584Z [ERROR]: /api/v1/auth/login POST User not found
+2025-01-15T05:44:35.327Z [ERROR]: /api/v1/users/113471fa-2f3e-474c-a30e-7242372c53c4 GET User not found
+2025-01-15T05:45:13.388Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:46:19.070Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:56:07.373Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T05:59:06.837Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T06:02:50.663Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T06:08:33.398Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T06:13:55.595Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T06:16:47.101Z [ERROR]: /api/v1/auth/login POST Password is undefined
+2025-01-15T06:18:30.240Z [ERROR]: /api/v1/auth/login POST Password ingresado is undefined
+2025-01-15T06:37:16.016Z [ERROR]: /api/v1/auth/login POST Password ingresado is undefined
+2025-01-15T06:37:27.909Z [ERROR]: /api/v1/auth/login POST Password ingresado is undefined
+2025-01-15T06:52:11.011Z [ERROR]: /api/v1/auth/login POST Password ingresado is undefined
+2025-01-15T06:52:21.885Z [ERROR]: /api/v1/auth/login POST User not found
+2025-01-15T06:52:41.578Z [ERROR]: /api/v1/auth/login POST Password ingresado is undefined
+2025-01-15T06:54:57.784Z [ERROR]: /api/v1/auth/login POST Password en BD is undefined
+2025-01-15T07:11:50.165Z [ERROR]: /api/v1/auth/login POST Password en BD is undefined
+2025-01-15T07:12:48.453Z [ERROR]: /api/v1/auth/login POST Password en BD is undefined
+2025-01-15T07:14:56.700Z [ERROR]: /api/v1/auth/login POST Password en BD is undefined [object Object]
+2025-01-15T07:20:33.753Z [ERROR]: /api/v1/auth/login POST Password en BD is undefined [object Object]
+2025-01-15T07:32:03.426Z [ERROR]: /api/v1/auth/login POST Password en BD is undefined [object Object]
+2025-01-15T07:33:38.026Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T07:34:21.208Z [ERROR]: /api/v1/auth/login POST User not found
+2025-01-15T07:34:47.758Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-15T07:44:40.012Z [ERROR]: /api/v1/auth/register POST Illegal arguments: undefined, number
+2025-01-15T07:44:51.916Z [ERROR]: /api/v1/auth/register POST Illegal arguments: undefined, number
+2025-01-15T07:50:22.081Z [ERROR]: /api/v1/auth/login POST Illegal arguments: string, undefined
+2025-01-16T04:48:51.312Z [ERROR]: /api/v1/movies/ POST notNull Violation: Movie.id cannot be null
+2025-01-16T04:49:46.296Z [ERROR]: /api/v1/movies/ POST notNull Violation: Movie.id cannot be null
+2025-01-16T04:50:23.350Z [ERROR]: /api/v1/movies/ POST notNull Violation: Movie.id cannot be null
+2025-01-16T04:52:17.225Z [ERROR]: /api/v1/movies/ POST notNull Violation: Movie.id cannot be null
+2025-01-16T05:29:08.350Z [ERROR]: /api/v1/reviews/00b96ddd-428c-4e37-9c69-e6e79375b193 GET Review not found
+2025-01-16T05:30:07.969Z [ERROR]: /api/v1/reviews/00b96ddd-428c-4e37-9c69-e6e79375b193 GET Review not found
+2025-01-16T05:30:39.857Z [ERROR]: /api/v1/reviews/a166ed82-ee18-4004-8548-9071f1047264 GET Review not found
+2025-01-16T05:35:36.703Z [ERROR]: /api/v1/reviews/a166ed82-ee18-4004-8548-9071f1047264 GET Review not found
+2025-01-16T05:36:19.068Z [ERROR]: /api/v1/reviews/00b96ddd-428c-4e37-9c69-e6e79375b193 GET Review not found
+2025-01-16T05:40:57.162Z [ERROR]: /api/v1/reviews/ POST insert or update on table "reviews" violates foreign key constraint "reviews_uid_fkey"
+2025-01-16T22:52:21.571Z [ERROR]: /api/v1/movies/594be903-f61f-4714-8bc0-aca70aeff313 GET Movie not found
+2025-01-16T22:52:40.849Z [ERROR]: /api/v1/movies/594be903-f61f-4714-8bc0-aca70aeff313 GET Movie not found
+2025-01-16T22:53:07.970Z [ERROR]: /api/v1/movies/2168e696-a355-4b0e-9212-df81b68660e9 GET Movie not found
+2025-01-16T23:14:48.604Z [ERROR]: /api/v1/reviews/movie/7b973ad1-fcff-48f9-9126-64036437a6e8 GET WHERE parameter "mid" has invalid "undefined" value
+2025-01-25T16:43:26.813Z [ERROR]: /api/v1/users/9a64c27f-4a7b-454b-ad9d-054cbb4c9d05 GET User not found
+2025-01-25T18:09:21.965Z [ERROR]: /api/v1/users/2c99bf3e-655a-4ecd-93a0-48d6ab3c7906 GET User not found
+2025-01-25T18:10:09.987Z [ERROR]: /api/v1/users/2f70e65c-555a-4bb0-a41c-0911d63bb910 GET User not found
