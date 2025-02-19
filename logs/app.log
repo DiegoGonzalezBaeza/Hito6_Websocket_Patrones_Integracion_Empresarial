@@ -63,3 +63,6 @@
 2025-01-25T16:43:26.813Z [ERROR]: /api/v1/users/9a64c27f-4a7b-454b-ad9d-054cbb4c9d05 GET User not found
 2025-01-25T18:09:21.965Z [ERROR]: /api/v1/users/2c99bf3e-655a-4ecd-93a0-48d6ab3c7906 GET User not found
 2025-01-25T18:10:09.987Z [ERROR]: /api/v1/users/2f70e65c-555a-4bb0-a41c-0911d63bb910 GET User not found
+2025-02-19T02:06:38.519Z [INFO]: /login POST
+2025-02-19T02:07:42.108Z [INFO]: /login POST
+2025-02-19T02:26:52.466Z [INFO]: /login POST

@@ -45,7 +45,7 @@ const loginWithEmailAndPassword = async(email: string, password: string) => {
 const registerUserWithEmailAndPassword = async(email: string, password: string) => {
     const newUser = await userService.createUserWithEmailAndPassword(email, password);
 
-    const token = generateAccessToken(newUser.email, newUser.id, "1h");
+    const token = generateAccessToken(newUser.uid, newUser.email, "1h");
 
     return token;
 };

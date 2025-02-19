@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+
+  </head>
+  <body>
+    <h1>Socket.io</h1>
+
+    <h3>Lista de usuario contectados:</h3>
+    <ul id="users"></ul>
+
+    <h3>Elige una sala:</h3>
+    <ul>
+      <li>
+        <button onclick="joinRoom('room1')">Room 1</button>
+        <button onclick="joinRoom('room2')">Room 2</button>
+        <button onclick="leaveRoom()">Salir de la sala</button>
+      </li>
+    </ul>
+
+    <form id="form">
+      <input
+        id="input"
+        autocomplete="off"
+        placeholder="Type a message"
+      />
+      <button type="submit">Send</button>
+    </form>
+
+    <ul id="messages"></ul>
+
+    <script src="app.js"></script>
+  </body>
+</html>

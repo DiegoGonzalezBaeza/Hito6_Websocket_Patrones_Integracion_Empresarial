@@ -13,10 +13,40 @@ import openapiSpecification from "./config/swagger";
 import swaggerUi from "swagger-ui-express";
 import { sequelize } from "./config/database";
 
+import http from "node:http";
+import type { Socket } from "socket.io";
+import { Server } from "socket.io";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+
+import { Message } from "./interfaces/message.interface";
+import { User } from "./interfaces/user.interface";
+import { User as UserModel } from "./models/user.model";
+
+
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cookieParser());
+app.use(morgan('dev'));
+
+// ---------------
+// Manejo de errores
+const handleError = (socket: Socket, event: string, error: Error) => {
+  console.log(`Error in event ${event}: ${error.message}`);
+  socket.emit("error", {
+    event,
+    message: "An error occurred",
+  });
+};
+// ---------------
+
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware para manejar errores - debe estar al inicio de las rutas
@@ -28,6 +58,176 @@ app.use(
     swaggerUi.setup(openapiSpecification)
   );
 
+// Login con JWT
+app.post("/login", (req, res) => {
+  const wordSecret = process.env.JWT_SECRET;
+  if (!wordSecret) {
+    throw new Error("La variable de entorno wordSecret no está definida.");
+  }
+  const { email } = req.body;
+  const token = jwt.sign({ email }, wordSecret, { expiresIn: "1h" });
+  res.json({ token });
+});
+
+// static files
+app.use(express.static("public"));
+
+const messages: Message[] = [];
+
+// Login with namespace
+interface ConnectedUser extends Omit<User, "password"> {
+  joinedAt: Date;
+}
+
+const connectedUsers: { [key: string]: ConnectedUser } = {};
+
+
+// chat with namespace
+const chat = io.of("/chat");
+
+// Extender la interfaz de Socket para agregar el usuario
+declare module "socket.io" {
+  interface Socket {
+    user?: string | JwtPayload;
+  }
+}
+
+// --------------------
+
+// Middleware para autenticar usuarios
+chat.use(async (socket, next) => {
+  try {
+    console.log("🔍 Middleware de autenticación ejecutado");
+
+    const token = socket.handshake.auth.token;
+    console.log("📌 Token recibido:", token); // 👈 LOG IMPORTANTE
+
+    if (!token) {
+      console.log("❌ No se recibió token");
+      return next(new Error("Authentication error"));
+    }
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      console.error("❌ JWT_SECRET no está definido en las variables de entorno");
+      return next(new Error("Server error"));
+    }
+
+    // Verificar el token
+    const decoded = jwt.verify(token, secret) as JwtPayload;
+    console.log("✅ Token decodificado:", decoded); // 👈 LOG IMPORTANTE
+
+    if (!decoded.email) {
+      console.log("❌ Token inválido (sin email)");
+      return next(new Error("Invalid token"));
+    }
+
+    // Buscar usuario en la base de datos
+    const user = await UserModel.findOne({ where: { email: decoded.email } });
+
+    if (!user) {
+      console.log("❌ Usuario no encontrado en la base de datos");
+      return next(new Error("User not found"));
+    }
+
+    console.log("✅ Usuario autenticado:", user.email);
+    socket.user = user;  // Asignamos el usuario al socket
+    next();
+  } catch (error) {
+    console.log("❌ Error en autenticación WebSocket:", error);
+    next(new Error("Authentication error"));
+  }
+});
+
+// // Middleware para autenticar usuarios
+// chat.use((socket: Socket, next) => {
+//   const token = socket.handshake.auth.token;
+
+//   if (!token) {
+//     console.log("No token provided");
+//     return next(new Error("Authentication error"));
+//   }
+
+//   try {
+//     const { email } = jwt.verify(token, "secret") as JwtPayload;
+//     console.log("Payload: ", email);
+//     socket.user = email;
+//     next();
+//   } catch (error) {
+//     console.log(error);
+//     next(new Error("Authentication error"));
+//   }
+// });
+
+
+chat.on("connection", (socket) => {
+  const user = socket.user as User; // Recuperamos el usuario completo
+
+  if (!user) {
+    console.log("No user found in socket");
+    return;
+  }
+  
+  // Guardamos en `connectedUsers`
+  connectedUsers[socket.id] = {
+    id: user.id,
+    email: user.email, // Ahora `email` viene del objeto `user`
+    joinedAt: new Date(),
+  };
+
+  console.log(`User ${user.email} connected`);
+
+  // Broadcast a todos los usuarios conectados
+  chat.emit("users", Object.values(connectedUsers));
+
+  // Evento para unirse a una sala
+  socket.on("joinRoom", (room) => {
+    socket.join(room);
+
+    const messageData = {
+      id: Date.now(),
+      userId: user.id,
+      username: user.email,
+      content: `User ${user.email} joined the chat`,
+      timestamp: new Date(),
+      room: room,
+    };
+
+    chat.to(room).emit("message", messageData);
+  });
+
+  // Enviar mensaje solo a la sala
+  socket.on("sendMessage", ({ room, message }) => {
+    const messageData = {
+      id: Date.now(),
+      userId: user.id,
+      username: user.email,
+      content: message,
+      timestamp: new Date(),
+      room: room,
+    };
+
+    messages.push(messageData);
+    chat.to(room).emit("message", messageData);
+  });
+
+  // Dejar la sala
+  socket.on("leaveRoom", (room) => {
+    socket.leave(room);
+    console.log(`User ${user.email} left room: ${room}`);
+  });
+
+  // Desconectar usuario
+  socket.on("disconnect", () => {
+    delete connectedUsers[socket.id];
+    console.log(`User ${user.email} disconnected`);
+
+    // Broadcast a todos los usuarios conectados
+    chat.emit("users", Object.values(connectedUsers));
+  });
+});
+
+// --------------------
 
 // Configurar el limitador
 const limiter = rateLimit({
@@ -64,7 +264,7 @@ const main = async () => {
     try {
       await sequelize.sync({ force: true });
       console.log("Database connected");
-      app.listen(port, () => {
+      server.listen(port, () => {
         console.log(`Server is running on http://localhost:${port}`);
       });
     } catch (error) {
