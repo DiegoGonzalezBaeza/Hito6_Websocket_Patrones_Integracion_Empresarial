@@ -177,7 +177,7 @@ chat.on("connection", (socket) => {
 }
 ```
 
-## - Promt
+## - Prompt
 ![image](./img/promt_token.webp)
 
 ## - Register Token Usuario 1

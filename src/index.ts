@@ -58,17 +58,6 @@ app.use(
     swaggerUi.setup(openapiSpecification)
   );
 
-// Login con JWT
-app.post("/login", (req, res) => {
-  const wordSecret = process.env.JWT_SECRET;
-  if (!wordSecret) {
-    throw new Error("La variable de entorno wordSecret no está definida.");
-  }
-  const { email } = req.body;
-  const token = jwt.sign({ email }, wordSecret, { expiresIn: "1h" });
-  res.json({ token });
-});
-
 // static files
 app.use(express.static("public"));
 
@@ -97,44 +86,44 @@ declare module "socket.io" {
 // Middleware para autenticar usuarios
 chat.use(async (socket, next) => {
   try {
-    console.log("🔍 Middleware de autenticación ejecutado");
+    console.log("🔍 Authentication middleware executed");
 
     const token = socket.handshake.auth.token;
-    console.log("📌 Token recibido:", token); // 👈 LOG IMPORTANTE
+    console.log("📌 Token received:", token); // 👈 Log importante
 
     if (!token) {
-      console.log("❌ No se recibió token");
+      console.log("❌ No token received");
       return next(new Error("Authentication error"));
     }
 
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      console.error("❌ JWT_SECRET no está definido en las variables de entorno");
+      console.error("❌ JWT_SECRET is not defined in environment variables");
       return next(new Error("Server error"));
     }
 
-    // Verificar el token
+    // Verify the token
     const decoded = jwt.verify(token, secret) as JwtPayload;
-    console.log("✅ Token decodificado:", decoded); // 👈 LOG IMPORTANTE
+    console.log("✅ Token decoded:", decoded); // 👈 Log importante
 
     if (!decoded.email) {
-      console.log("❌ Token inválido (sin email)");
+      console.log("❌ Invalid token (missing email)");
       return next(new Error("Invalid token"));
     }
 
-    // Buscar usuario en la base de datos
+    // Find user in the database
     const user = await UserModel.findOne({ where: { email: decoded.email } });
 
     if (!user) {
-      console.log("❌ Usuario no encontrado en la base de datos");
+      console.log("❌ User not found in the database");
       return next(new Error("User not found"));
     }
 
-    console.log("✅ Usuario autenticado:", user.email);
-    socket.user = user;  // Asignamos el usuario al socket
+    console.log("✅ User authenticated:", user.email);
+    socket.user = user; // Se asigna el usuario al socket
     next();
   } catch (error) {
-    console.log("❌ Error en autenticación WebSocket:", error);
+    console.log("❌ WebSocket authentication error:", error);
     next(new Error("Authentication error"));
   }
 });
